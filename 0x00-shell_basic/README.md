@@ -1,0 +1,1 @@
+# This folder contains files with some basic shell scripts
