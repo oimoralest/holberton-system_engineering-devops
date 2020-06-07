@@ -1,2 +1,0 @@
-#!/bin/bash
-find *.js -type f -delete
