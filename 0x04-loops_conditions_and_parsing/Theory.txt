@@ -1,0 +1,469 @@
+0x04. Loops, conditions and parsing
+	Shell commands
+		awk # pattern scanning and processing language
+		basename # strip directory and suffix from filenames
+		bg # resumes suspended jobs without bringing them to the foreground
+		cat # print files
+		cd # change the shell working directory.
+		chmod # change file mode
+		chown # change file owner and group
+		crontab # maintain crontab files
+		curl # transfer a URL
+		cut # remove sections from each line of files
+		date # display or set date and time
+		dig # DNS lookup utility
+		df # report file system disk space usage
+		diff # compare files line by line
+		du # estimate file space usage
+		echo # display a line of text
+		find # search for files in a directory hierarchy
+		fg # resumes suspended jobs and bring them to the foreground
+		grep # print lines matching a pattern
+		kill # send a signal to a process
+		less # read file with pagination
+		ln # create links
+		ls # list directory contents
+		lsb_release # print distribution-specific information
+		lsof # list open files
+		mkdir # create
+		mv # move files
+		nc # arbitrary TCP and UDP connections and listens
+		netstat # print network connections, routing tables, interface statistics...
+		nice # execute a utility with an altered scheduling priority
+		nproc # print the number of processing units available
+		passwd # change user password
+		pgrep # look up processes based on name and other attributes
+		pkill # send signal to processes based on name and other attributes
+		printenv # print all or part of environment
+		pwd # print name of current/working directory
+		top # display Linux processes
+		tr # translate or delete characters
+		ps # report a snapshot of the current processes
+		rm # remove files or directories
+		rmdir # remove directories
+		rsync # remote file copy
+		scp # secure copy (remote file copy program)
+		sed # stream editor for filtering and transforming text
+		sleep # suspend execution for an interval of time
+		sort # sort lines of text file
+		ssh # OpenSSH SSH client (remote login program)
+		ssh-keygen # SSH key generation, management and conversion
+		su # substitute user identity
+		sudo # execute a command as another user
+		tail # output the last part of files
+		tar # manipulate archives files
+		tr # translate or delete characters
+		uname # Print operating system name
+		uniq # report or omit repeated lines
+		uptime # show how long system has been running
+		w # Show who is logged on and what they are doing
+		whereis # locate the binary, source, and manual page files for a command
+		which # locate a command
+		wc # print newline, word, and byte counts for each file
+		xargs # build and execute command lines from standard input
+		| # redirect standard output to another command
+		> # redirect standard output
+		< # redirect standard input
+		& # send process to background
+
+	Shell shortcuts
+		CTRL+A # go to beginning of line
+		CTRL+B # moves backward one character
+		CTRL+C # stops the current command
+		CTRL+D # deletes one character backward or logs out of current session
+		CTRL+E # go to end of line
+		CTRL+F # moves forward one character
+		CTRL+G # aborts the current editing command and ring the terminal bell
+		CTRL+K # deletes (kill) forward to end of line
+		CTRL+L # clears screen and redisplay the line
+		CTRL+N # next line in command history
+		CTRL+R # searches in your command history
+		CTRL+T # transposes two characters
+		CTRL+U # kills backward to the beginning of line
+		CTRL+W # kills the word behind the cursor
+		CTRL+Y # retrieves last deleted string
+		CTRL+Z # stops the current command, resume with fg in the foreground or bg in the background
+
+	Loops sample
+		The for loop:
+			This loop allows for specification of a list of values. A list of commands is executed for 
+			each value in the list
+
+			The syntax for this loop is:
+
+				for NAME [in LIST ]; do COMMANDS; done
+
+			If [in LIST] is not present, it is replaced with in $@ and for executes the COMMANDS once 
+			for each positional parameter that is set.
+
+			The return status is the exit status of the last command that executes. If no commands are 
+			executed because LIST does not expand to any items, the return status is zero
+
+			Example:
+				#!/bin/bash
+				# specific conversion script for my html files to php
+				LIST="$(ls *.html)"
+				for i in "$LIST"; do
+					NEWNAME=$(ls "$i" | sed -e 's/html/php/')
+					cat beginfile > "$NEWNAME"
+					cat "$i" | sed -e '1,25d' | tac | sed -e '1,21d'| tac >> "$NEWNAME"
+					cat endfile >> "$NEWNAME"
+				done
+
+		The while loop:
+			The while construct allows for repetitive execution of a list of commands, as long as the 
+			command controlling the while loop executes successfully (exit status of zero)
+
+			The syntax is:
+
+				while CONTROL-COMMAND; do CONSEQUENT-COMMANDS; done
+
+			CONTROL-COMMAND can be any command(s) that can exit with a success or failure status. The 
+			CONSEQUENT-COMMANDS can be any program, script or shell construct.
+
+			The return status is the exit status of the last CONSEQUENT-COMMANDS command, or zero if 
+			none was executed.
+
+			Example:
+				#!/bin/bash
+				# This script opens 4 terminal windows.
+				i="0"
+				while [ $i -lt 4 ]; do
+				xterm & i=$[$i+1]
+				done
+
+		The until loop:
+			The until loop is very similar to the while loop, except that the loop executes until the 
+			TEST-COMMAND executes successfully
+
+			The syntax is the same as for the while loop:
+
+				until TEST-COMMAND; do CONSEQUENT-COMMANDS; done
+
+			The return status is the exit status of the last command executed in the CONSEQUENT-COMMANDS 
+			list, or zero if none was executed
+
+			Example:
+				#!/bin/bash
+				# This script copies files from my homedirectory into the webserver directory.
+				# A new directory is created every hour.
+				# If the pics are taking up too much space, the oldest are removed.
+				while true; do
+					DISKFUL=$(df -h $WEBDIR | grep -v File | awk '{print $5 }' | cut -d "%" -f1 -)
+
+					until [ $DISKFUL -ge "90" ]; do
+
+							DATE=`date +%Y%m%d`
+							HOUR=`date +%H`
+							mkdir $WEBDIR/"$DATE"
+							while [ $HOUR -ne "00" ]; do
+									DESTDIR=$WEBDIR/"$DATE"/"$HOUR"
+									mkdir "$DESTDIR"
+									mv $PICDIR/*.jpg "$DESTDIR"/
+									sleep 3600
+									HOUR=`date +%H`
+							done
+
+					DISKFULL=$(df -h $WEBDIR | grep -v File | awk '{ print $5 }' | cut -d "%" -f1 -)
+					done
+
+					TOREMOVE=$(find $WEBDIR -type d -a -mtime +30)
+					for i in $TOREMOVE; do
+						rm -rf "$i";
+					done
+
+				done
+
+	Variable assignment and arithmetic
+		Operators
+			assignment:
+				variable assignment = value
+				Example:
+					var=27 # No spaces allowed after the "="
+
+				Do not confuse the "=" assignment operator with the = test operator
+
+		Arithmetic operators
+			+ plus
+			- minus
+			* multiplication
+			/ division
+			** exponentiation
+			% modulo
+			+= plus-equal
+			-= minus-equal
+			*= times-equal
+			/= slash-equal
+			%= mod-equal
+
+			Arithmetic operators often occur in an expr or let expression
+
+		Bitwise operators
+			<< left shift
+			<<= left-shift-equal
+			>> right shift
+			>>= right-shift-equal
+			& AND
+			&= AND-equal
+			| OR
+			|= OR-equal
+			~ NOT
+			^ XOR
+			^= XOR-equal
+
+		Logical
+			! NOT
+			&& AND
+			|| OR
+
+		miscellaneuos operators
+			, comma operator
+				The comma operator chains together two or more arithmetic operations
+
+				Example:
+
+					let "t1 = ((5 + 3, 7 - 1, 15 - 4))"
+					echo "t1 = $t1"           ^^^^^^  # t1 = 11
+					# Here t1 is set to the result of the last operation. Why?
+
+					let "t2 = ((a = 9, 15 / 3))"      # Set "a" and calculate "t2".
+					echo "t2 = $t2    a = $a"         # t2 = 5    a = 9
+
+	Comparison operators
+		Integer comparison
+			-eq
+				is equal to
+				if [ "$a" -eq "$b" ]
+
+			-ne
+				is not equal to
+				if [ "$a" -ne "$b" ]
+
+			-gt
+				is greater than
+				if [ "$a" -gt "$b" ]
+
+			-ge
+				is greater than or equal to
+				if [ "$a" -ge "$b" ]
+
+			-lt
+				is less than
+				if [ "$a" -lt "$b" ]
+
+			-le
+				is less than or equal to
+				if [ "$a" -le "$b" ]
+
+			<
+				is less than (within double parentheses)
+				(("$a" < "$b"))
+
+			<=
+				is less than or equal to (within double parentheses)
+				(("$a" <= "$b"))
+
+			>
+				is greater than (within double parentheses)
+				(("$a" > "$b"))
+
+			>=
+				is greater than or equal to (within double parentheses)
+				(("$a" >= "$b"))
+
+		String comparison
+			=
+				is equal to
+				if [ "$a" = "$b" ]
+					Caution
+						Note the whitespace framing the =.
+						if [ "$a"="$b" ] is not equivalent to the above.
+
+			==
+				is equal to
+				if [ "$a" == "$b" ]
+
+			!=
+				is not equal to
+				if [ "$a" != "$b" ]
+				This operator uses pattern matching within a [[ ... ]] construct.
+
+			<
+				is less than, in ASCII alphabetical order
+				if [[ "$a" < "$b" ]]
+				if [ "$a" \< "$b" ]
+					Note that the "<" needs to be escaped within a [ ] construct.
+
+			>
+				is greater than, in ASCII alphabetical order
+				if [[ "$a" > "$b" ]]
+				if [ "$a" \> "$b" ]
+				Note that the ">" needs to be escaped within a [ ] construct.
+
+			-z
+				string is null, that is, has zero length
+				Example:
+					String=''   # Zero-length ("null") string variable.
+					if [ -z "$String" ]
+					then
+					echo "\$String is null."
+					else
+					echo "\$String is NOT null."
+					fi     # $String is null.
+
+			-n
+				string is not null.
+
+		compound comparison
+			-a
+				logical and
+				exp1 -a exp2 returns true if both exp1 and exp2 are true.
+
+			-o
+				logical or
+				exp1 -o exp2 returns true if either exp1 or exp2 is true.
+
+	File test operators
+		Returns true if...
+			-e
+				file exists
+
+			-a
+				file exists
+				This is identical in effect to -e. It has been "deprecated," [1] and its use is 
+				discouraged.
+
+			-f
+				file is a regular file (not a directory or device file)
+
+			-s
+				file is not zero size
+
+			-d
+				file is a directory
+
+			-b
+				file is a block device
+
+			-c
+				file is a character device
+
+			-p
+				file is a pipe
+
+			-h
+				file is a symbolic link
+
+			-L
+				file is a symbolic link
+
+			-S
+				file is a socket
+
+			-t
+				file (descriptor) is associated with a terminal device
+				This test option may be used to check whether the stdin [ -t 0 ] or stdout [ -t 1 ] 
+				in a given script is a terminal.
+
+			-r
+				file has read permission (for the user running the test)
+
+			-w
+				file has write permission (for the user running the test)
+
+			-x
+				file has execute permission (for the user running the test)
+
+			-g
+				set-group-id (sgid) flag set on file or directory
+				If a directory has the sgid flag set, then a file created within that directory 
+				belongs to the group that owns the directory, not necessarily to the group of the 
+				user who created the file. This may be useful for a directory shared by a workgroup.
+
+			-u
+				set-user-id (suid) flag set on file
+
+			-k
+				sticky bit set
+
+			-O
+				you are owner of file
+
+			-G
+				group-id of file same as yours
+
+			-N
+				file modified since it was last read
+
+			f1 -nt f2
+				file f1 is newer than f2
+
+			f1 -ot f2
+				file f1 is older than f2
+
+			f1 -ef f2
+				files f1 and f2 are hard links to the same file
+
+			!
+				"not" -- reverses the sense of the tests above (returns true if condition absent).
+
+	if/elif/else/then
+		Example:
+			if [ -f $HOME/.Xclients ]; then
+				exec $HOME/.Xclients
+			elif [ -f /etc/X11/xinit/Xclients ]; then
+				exec /etc/X11/xinit/Xclients
+			else
+				# failsafe settings.  Although we should never get here
+				# (we provide fallbacks in Xclients as well) it can't hurt.
+				xclock -geometry 100x100-5+5 &
+				xterm -geometry 80x50-50+150 &
+				if [ -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html ]; then
+						netscape /usr/share/doc/HTML/index.html &
+				fi
+			fi
+
+	Make your scripts portable
+		The env command allows to run a program in a modified environment
+			#!/usr/bin/env bash
+
+		The advantage of #!/usr/bin/env bash is that it will use whatever bash executable appears 
+		first in the running user’s $PATH variable. If you have two version of bash installed as 
+		follows and PATH set to /home/vivek/bin:/usr/local/bin:/usr/bin:/bin:/usr/games/bin:/bin:
+		/usr/bin, than bash4 will execute the script:
+
+			/bin/bash # <-- bash3
+			/usr/local/bin/bash # <-- bash4
+
+		env is a shell command for Unix-like operating systems. We can use it for various purposes. For example:
+
+			- Display a list of environment variables
+			- Run another command in a modified environment
+			- Add or remove variables
+			- Change the value of existing variables
+
+	SSH login without password
+		First log in on A as user a and generate a pair of authentication keys. Do not enter a 
+		passphrase:
+
+			ssh-keygen -t rsa
+
+		Now use ssh to create a directory ~/.ssh as user b on B. (The directory may already exist, 
+		which is fine):
+
+			ssh b@B mkdir -p .ssh
+
+		Finally append a's new public key to b@B:.ssh/authorized_keys and enter b's password one 
+		last time:
+
+			cat .ssh/id_rsa.pub | ssh b@B 'cat >> .ssh/authorized_keys'
+
+		From now on you can log into B as b from A as a without password:
+
+			ssh b@B
+
+		Depending on your version of SSH you might also have to do the following changes:
+
+			- Put the public key in .ssh/authorized_keys2
+			- Change the permissions of .ssh to 700
+			- Change the permissions of .ssh/authorized_keys2 to 640
