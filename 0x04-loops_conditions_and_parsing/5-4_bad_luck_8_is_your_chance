@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This scripts display Holberton school if i is different than 4 and 8
+# if i is equal to 4 displays: bad luck
+# if i is equal to 8 displays: bad luck
+i=1
+while [ $i -lt 11 ];
+    do
+        if [ $i -eq 4 ];
+            then
+                echo "bad luck"
+        elif [ $i -eq 8 ];
+            then
+                echo "good luck"
+        else
+            echo "Holberton School"
+        fi
+        i=$((i + 1))
+done
