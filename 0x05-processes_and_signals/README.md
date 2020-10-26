@@ -16,10 +16,9 @@
 | [5-dont_stop_me_now](./5-dont_stop_me_now) | script that stops `4-to_infinity_and_beyond process` |
 | [6-stop_me_if_you_can](./6-stop_me_if_you_can) | script that stops `4-to_infinity_and_beyond process` |
 | [7-highlander](./7-highlander) | script that displays:
-
-    `To infinity and beyond` indefinitely
-    With a `sleep` 2 in between each iteration
-    `I am invincible!!!` when receiving a SIGTERM signal |
+- `To infinity and beyond` indefinitely
+- With a `sleep` 2 in between each iteration
+- `I am invincible!!!` when receiving a SIGTERM signal |
 | [8-beheaded_process](./8-beheaded_process) | script that kills the process `7-highlander` |
 
 ## Requeriments
