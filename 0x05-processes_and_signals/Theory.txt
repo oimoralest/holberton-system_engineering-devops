@@ -135,3 +135,4 @@
 References:
     - PID Definition: http://www.linfo.org/pid.html
     - Errors and Signals and Traps (Oh, My!) - Part 2: https://linuxcommand.org/lc3_wss0150.php
+    - Bash Reference Manual: http://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html
