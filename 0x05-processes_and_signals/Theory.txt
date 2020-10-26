@@ -1,0 +1,137 @@
+0x05. Processes and signals
+    Linux process and PID
+        A PID (Process identification number) is an identificacion number that is automatically 
+        assigned to each process when it is created on a Unix-like operating system.
+
+        A process is an executing instance of a program. Each process is guaranteed a unique PID, 
+        which is always a non-negative integer.
+
+        The process 'init' is the only process that will always have the same PID on ane session 
+        and on any system, and that PID is 1.
+
+        A very large PID does not necessarily mean that there are anywhere near that many processes 
+        on a system. This is because such numbers are often a result of the fact that PIDs are not 
+        immediately reused, in order to prevent possible errors.
+
+        The default maximum value of PIDs is 32,767. This maximum is important because it is 
+        essentially the maximum number of processes that can exist simultaneously on a system.
+
+        The file pid_max, which was introduced with the Linux 2.5 kernel, specifies the value at 
+        which PIDs wrap around. It has a default of 32768, but it can be set to any number up to 
+        approximately four million. The maximum number of processes on a system is only limited by 
+        the amount of physical memory available.
+
+        The PIDs for the processes currently on the system can be found by using the 'ps' command or 
+        he 'pstree' command. The pidof command provides the PID of a program whose name is passed 
+        to it as an argument.
+
+        The PID is needed in order to terminate a frozen or otherwise misbehaving program with the 
+        kill command. Information on current processes is stored in the /proc filesystem.
+
+        Listing the contents of /proc with the ls command as follows will show numerous directories 
+        whose names consist only of numbers:
+
+            ls /proc | less
+
+        There is a numbered directory in /proc corresponding to each PID currently on the system. 
+        Each of the directories contains several standard files containing information about the 
+        process.
+
+    Linux signals
+        Signals are software interrupts. In linux, every signal has a name that begins with 
+        characters SIG.
+
+        When the signal occurs, the process has to tell the kernel what to do with it. There can be 
+        three options through which a signal can be disposed:
+
+            1. The signal can be ignored.
+            2. The signal can be caught.
+            3. Let the default action apply.
+
+        Sending a signal
+            In bash we can use the 'kill' command to send a signal to a process. The following are 
+            the standard signals suppported by Linux-like operative systems
+
+            Signal      Standard   Action   Comment
+            ────────────────────────────────────────────────────────────────────────
+            SIGABRT      P1990      Core    Abort signal from abort(3)
+            SIGALRM      P1990      Term    Timer signal from alarm(2)
+            SIGBUS       P2001      Core    Bus error (bad memory access)
+            SIGCHLD      P1990      Ign     Child stopped or terminated
+            SIGCLD         -        Ign     A synonym for SIGCHLD
+            SIGCONT      P1990      Cont    Continue if stopped
+            SIGEMT         -        Term    Emulator trap
+            SIGFPE       P1990      Core    Floating-point exception
+            SIGHUP       P1990      Term    Hangup detected on controlling terminal
+                                            or death of controlling process
+            SIGILL       P1990      Core    Illegal Instruction
+            SIGINFO        -                A synonym for SIGPWR
+            SIGINT       P1990      Term    Interrupt from keyboard
+            SIGIO          -        Term    I/O now possible (4.2BSD)
+            SIGIOT         -        Core    IOT trap. A synonym for SIGABRT
+            SIGKILL      P1990      Term    Kill signal
+            SIGLOST        -        Term    File lock lost (unused)
+            SIGPIPE      P1990      Term    Broken pipe: write to pipe with no
+                                            readers; see pipe(7)
+            SIGPOLL      P2001      Term    Pollable event (Sys V);
+                                            synonym for SIGIO
+            SIGPROF      P2001      Term    Profiling timer expired
+            SIGPWR         -        Term    Power failure (System V)
+            SIGQUIT      P1990      Core    Quit from keyboard
+            SIGSEGV      P1990      Core    Invalid memory reference
+            SIGSTKFLT      -        Term    Stack fault on coprocessor (unused)
+            SIGSTOP      P1990      Stop    Stop process
+            SIGTSTP      P1990      Stop    Stop typed at terminal
+            SIGSYS       P2001      Core    Bad system call (SVr4);
+                                            see also seccomp(2)
+            SIGTERM      P1990      Term    Termination signal
+            SIGTRAP      P2001      Core    Trace/breakpoint trap
+            SIGTTIN      P1990      Stop    Terminal input for background process
+            SIGTTOU      P1990      Stop    Terminal output for background process
+            SIGUNUSED      -        Core    Synonymous with SIGSYS
+            SIGURG       P2001      Ign     Urgent condition on socket (4.2BSD)
+            SIGUSR1      P1990      Term    User-defined signal 1
+            SIGUSR2      P1990      Term    User-defined signal 2
+            SIGVTALRM    P2001      Term    Virtual alarm clock (4.2BSD)
+            SIGXCPU      P2001      Core    CPU time limit exceeded (4.2BSD);
+                                            see setrlimit(2)
+            SIGXFSZ      P2001      Core    File size limit exceeded (4.2BSD);
+                                            see setrlimit(2)
+
+            SIGWINCH       -        Ign     Window resize signal (4.3BSD, Sun)
+
+            The signals SIGKILL and SIGSTOP cannot be caught, blocked, or
+            ignored
+
+        Handling a signal
+            The trap command allows us to execute a command when our script receives a signal. It 
+            works like this:
+
+                trap arg signals
+
+            "signals" is a list of signals to intercept and "arg" is a command to execute when one 
+            of the signals is received. Example:
+
+                trap "rm $TEMP_FILE; exit" SIGHUP SIGINT SIGTERM
+
+            Here, trap will execute the command if any of the listed signals is recieved.
+
+    Commands used:
+        ps command
+            report a snapshot of the current processes
+
+        pgrepo, pkill commands
+            look up or signal processes based on name and other attributes
+
+        kill command
+            send a signal to a process
+
+        exit command
+            terminate the calling process
+
+        trap command
+            trap signals
+
+References:
+    - PID Definition: http://www.linfo.org/pid.html
+    - Errors and Signals and Traps (Oh, My!) - Part 2: https://linuxcommand.org/lc3_wss0150.php
