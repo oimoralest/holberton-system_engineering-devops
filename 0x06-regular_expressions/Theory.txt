@@ -1,0 +1,61 @@
+0x06. Regular expression
+    Regular expressions - basics
+        A regular expresion (regex or regexp) is a special text string
+        for describinig a search pattern. Yo can think of regular
+        expressions as wilcards on steroids.
+
+        Repetition token
+            Token        | Property         | Regex example | Test String    |
+            {m, n}         Match exact        a{1, 3}h        ah, aah, aaah
+                           occurrences of a
+                           character/token
+            ?              Matches 0 or 1     a?h             ah, h, ha
+                           occurrence of a
+                           token
+            +              Matches 1 or       a+ha            ah, aah, aaah,
+                           more occurrence                    aaaah
+                           of a token
+            *              Matches 0 or       a*ha            ah, aah, aaah,
+                           more occurrence                    aaaah, h, ha
+                           of a token
+            ^              Matches the        ^ah             ah
+                           position at the                    ...<newline>ah
+                           start of line
+            $              Matches the        ah$             ah, a|ah,
+                           position at the                    ah<newline>...
+                           end of line
+            \A             Matches the        \Aah            ah, ah...
+                           position at the
+                           start of string
+            \Z             Matches the        \Zah            ah, ...ah
+                           position at the
+                           end of string
+            [a-zA-Z0-9]    Matches one out    gr[ea]y         grey, gray
+                           of several
+                           characters
+            [^a-zA-Z0-9]   Matches any        q[^u]           qatar
+                           character which
+                           is not one of
+                           those in the
+                           character set
+            [a-zA-Z0-9]+   Matches            [0-9]+          333, 222, 123
+                           repeating
+                           characters
+            [1st - [2nd]]  Matches any one    [0-9-[02468]]+  1357, 111
+                           character in
+                           first list but
+                           not in the
+                           second list
+            \d             Matches any        \d{1, 9}        1, 123456789
+                           digit
+            \s             Matches any        \s+$            \t, blank line
+                           whitespace                         with spaces
+                           character
+            \w             Matches any        \w{1, 5}        foo_1
+                           word character
+                           i.e. letters,
+                           numbers, _
+            \D, \S, \w     Matches opposite   \D+             Foobar, hello
+                           of the above                       world123!
+                           character
+                           classes
