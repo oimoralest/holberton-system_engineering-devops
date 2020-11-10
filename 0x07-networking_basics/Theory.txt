@@ -1,0 +1,13 @@
+0x07. Networking basics #0
+    OSI model
+        The Open Interconnection model (OSI model) is a conceprtual model
+        that characterises and standardises the communication functions
+        of a telecommunicaion or computing system without regard to its
+        underlaying internal structure and technology.
+
+        The model partitions the fflow data in a communication system into
+        seven abstraction layers, from the physical implementation of
+        transmiting bits across a communications medium to the
+        highest-level representation of data of a distributed application.
+
+        
