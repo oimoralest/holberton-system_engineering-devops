@@ -10,4 +10,35 @@
         transmiting bits across a communications medium to the
         highest-level representation of data of a distributed application.
 
-        
+	Layer architecture
+	      The recommendation X.200 describees the following layers:
+
+	      Media layers:
+	      	    1 Physical:Protocol data unit:Bit, Symbol
+		      function: Transmission and reception of raw bit
+		      over a physical medium
+		    2 Data link:Protocol data unit:Frame
+		      function: Reliable transmission of data frames
+		      between two nodes connecttedd by a physical layer
+		    3 Network:Protocol data unit:Packet
+		      function: Structuring and managing a multi-node
+		      network, inluding addresing, routing and traffic
+		      control
+	      Host layers:
+	      	    4 Transport:Protocol data unit:Segment, Datagram
+		      function: Reliable transmission of data segments
+		      between points on a network, including segmentattion,
+		      acknowledgement and multiplexing
+		    5 Session:Protocol data unit:Data
+		      function: Managing communication sessions, i.e,
+		      continuos exchange of information in the form of
+		      multiple back-and-forth transmissions between two
+		      nodes
+		    6 Presentation:Protocol data unit:Data
+		      function: Translation of data between a networking
+		      service and an application; including character
+		      encoding, data compression and encryption/decryption
+		    7 Application:Protocol data unit:Data
+		      function: High-level APIs, including resource
+		      sharing, remote file access
+		      
