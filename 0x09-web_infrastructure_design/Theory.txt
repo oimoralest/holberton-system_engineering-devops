@@ -1,0 +1,546 @@
+0x09. Web infrastructure design
+    Network basics
+        What is a protocol?
+            Network protocols are sets of established rules that dictate how
+            to format, transmit and receive data so computer network devices
+            can communicate regardless of the differences in their underlaying
+            infrastructures, designs or standards.
+
+            To successfully send and receive information, devices on both sides
+            of a communication exchange must accept and follow protocol
+            conventions. Support for network protocols can be built into
+            software, hardware or both.
+
+            How network protocols work
+                Network protocols break larger processes into discrete,
+                narrowly defined functions and tasks across every level of the
+                network. In the standard model, known as the Open Systems
+                Interconnection (OSI) model, one or more network protocols
+                govern activities at each layer in the telecommunication
+                exchange.
+
+                A set of cooperating network protocols is called a protocol
+                suite. The TCP/IP suite includes numerous protocols across
+                layers -- such as the data, network, transport and application
+                layers -- working together to enable internet connectivity.
+                These include:
+
+                    - Transmission Control Protocol (TCP), which uses a set of
+                    rules to exchange messages with other internet points at
+                    the information packet level
+
+                    - User Datagram Protocol (UDP), which acts as an alternative
+                    communication protocol to TCP and is used to establish
+                    low-latency and loss-tolerating connections between
+                    applications and the Internet
+
+                    - Internet Protocol (IP), which uses a set of rules to send
+                    and receive messages at the Internet address level
+
+                    - additional network protocols that include the Hypertext
+                    Transfer Protocol (HTTP) and File Transfer Protocol (FTP),
+                    each of which has defined sets of rules to exchange and
+                    display information.
+
+                Every packet transmitted and received over a network contains
+                binary data. Most protocols will add a header at the beginning
+                of each packed in order to store information about the sender
+                and the message's intended destination. Some protocols may also
+                include a footer at the end with additional information. Network
+                protocols process these headers and footers as part of the data
+                moving among devices in order to identify messages of their own
+                kind.
+
+                Network protocols are often set forth in an industry standard,
+                defined and published by groups such as:
+
+                    - the International Telecommunication Union
+                    - the Institute of Electrical and Electronics Engineers
+                    - the Internet Engineering Task Force
+                    - the International Organization for Standardization
+                    - the World Wide Web Consortium.
+
+                Generally speaking, networks have three types of protocols --
+                communication, such as Ethernet; management, such as the Simple
+                Mail Transfer Protocol (SMTP); and security, such as Secure Shell
+                (SSH).
+
+                Falling into these three broad categories are thousands of
+                network protocols that uniformly handle an extensive variety of
+                defined tasks, including authentication, automation, correction,
+                compression, error handling, file retrieval, file transfer, link
+                aggregation, routing, semantics, synchronization and syntax.
+
+            Implementing network protocols
+                In order for network protocols to work, they must be coded
+                within software, either a part of the computer's operating
+                system (OS) or as an application, or implemented within the
+                computer's hardware. Most modern operating systems possess
+                built-in software services that are prepared to implement some
+                network protocols. Other applications, such as web browsers, are
+                designed with software libraries that support whatever protocols
+                are necessary for the application to function. Furthermore,
+                TCP/IP and routing protocol support is implemented in direct
+                hardware for enhanced performance.
+
+                Whenever a new protocol is implemented, it is added to the
+                protocol suite. The organization of protocol suites is
+                considered to be monolithic since all protocols are stored in
+                the same address and build on top of one another.
+
+            Vulnerabilities of network protocols
+                One major vulnerability found in network protocols is that they
+                are not designed for security. Their lack of protection can
+                sometimes allow malicious attacks, such as eavesdropping and
+                cache poisoning, to affect the system. The most common attack on
+                network protocols is the advertisement of false routes, causing
+                traffic to go through compromised hosts instead of the
+                appropriate ones.
+
+                Network protocol analyzers have been designed and installed in
+                response to these vulnerabilities. Network protocol analyzers
+                protect systems against malicious activity by supplementing
+                firewalls, anti-virus programs and anti-spyware software.
+
+            Uses of network protocols
+                Network protocols are what make the modern Internet possible
+                since they allow computers to communicate across networks
+                without users having to see or know what background operations
+                are occurring. Some specific examples of network protocols and
+                their uses are:
+
+                    - Post Office Protocol 3 (POP3), which is the most recent
+                    version of a standard protocol that is used for receiving
+                    incoming e-mails.
+
+                    - Simple main transport Protocol, which is used to send and
+                    distribute outgoing e-mails.
+
+                    - File Transfer Protocol (FTP), which is used to transfer
+                    files from one machine to another.
+
+                    - Telnet, which is a collection of rules used to connect one
+                    system to another via a remote login. In this protocol, the
+                    system that send the request for connection is the local
+                    computer and the system that accepts the connection is the
+                    remote computer.
+
+        Reference: https://searchnetworking.techtarget.com/definition/protocol
+
+        What is an IP address?
+            Every machine on a network has a unique identifier. Just as you
+            would address a letter to send in the mail, computers use the unique
+            identifier to send data to specific computers on a network. Most
+            networks today, including all computers on the internet, use the
+            TCP/IP protocol as the standard for how to communicate on the
+            network. In the TCP/IP protocol, the unique identifier for a
+            computer is called its IP address.
+
+            There are two standards for IP addresses: IP Version 4 (IPv4) and
+            IP Version 6 (IPv6). All computers with IP addresses have an IPv4
+            address, and most use the new IPv6 address system as well. Here are
+            the differences between the two address types:
+
+                - IPv4 uses 32 binary bits to create a single unique address on
+                the network. An IPv4 address is expressed by four numbers
+                separated by dots. Each number is the decimal (base-10)
+                representation for an eight-digit binary (base-2) number, also
+                called an octet. For example: 216.27.61.137
+
+                - IPv6 uses 128 binary bits to create a single unique address on
+                the network. An IPv6 address is expressed by eight groups of
+                hexadecimal (base-16) numbers separated by colons, as in
+                2001:cdba:0000:0000:0000:0000:3257:9652. Groups of numbers that
+                contain all zeros are often omitted to save space, leaving a
+                colon separator to mark the gap (as in 2001:cdba::3257:9652).
+
+            How does your computer get its IP address?
+                An IP address can be either dynamic or static. A static address
+                is a permanently assigned address. Static IP addresses assigned
+                by internet service providers are rare. You can assign static
+                IPs to devices on your local network, but it can create network
+                issues if you use it without a good understanding of TCP/IP.
+                Dynamic addresses are the most common. They're assigned by the
+                Dynamic Host Configuration Protocol (DHCP), a service running on
+                the network. DHCP typically runs on network hardware such as
+                routers or dedicated DHCP servers
+
+                How DHCP assigns addresses
+                    When you add a computer to a network that computer uses a
+                    four-step process to get an IP address from DHCP:
+
+                        - Discover: The computer sends out a broadcast message
+                        on the network, hoping to discover a DHCP service
+                        provider.
+
+                        - Offer: Each DHCP provider hears the message,
+                        recognizes the unique hardware address of the computer,
+                        and sends a message back offering its services to that
+                        computer.
+
+                        - Request: The computer selects a DHCP provider from its
+                        offerings and then sends a request to that provider
+                        asking for an IP address assignment.
+
+                        - Acknowledge: The targeted DHCP provider acknowledges
+                        the request and issues an IP address to the computer
+                        that doesn't match any other IP addresses currently
+                        active on the network.
+
+            IP classes
+                Earlier, you read that IPv4 addresses represent four eight-digit
+                binary numbers. That means that each number could be 00000000 to
+                11111111 in binary, or 0 to 255 in decimal (base-10). In other
+                words, 0.0.0.0 to 255.255.255.255. However, some numbers in that
+                range are reserved for specific purposes on TCP/IP networks.
+                These reservations are recognized by the authority on TCP/IP
+                addressing, the internet Assigned Numbers Authority (IANA)
+
+            Internet Addresses and Subnets
+                Besides reserving IP addresses, the IANA is also responsible for
+                assigning blocks of IP addresses to certain entities, usually
+                commercial or government organizations. Your internet service
+                provider (ISP) may be one of these entities, or it may be part
+                of a larger block under the control of one of those entities.
+                When you connect to the internet, your ISP assigns you one of
+                these addresses. You can see a full list of IANA assignments
+                and reservations for IPv4 addresses at IANA's website.
+
+                If you only connect one computer to the internet, that computer
+                can use the address from your ISP. Many homes today, though, use
+                routers to share a single internet connection between multiple
+                computers.
+
+                If you use a router to share an internet connection, the router
+                gets the IP address issued directly from the ISP. Then, it
+                creates and manages a subnet for all the computers connected to
+                that router. If your computer's address falls into one of the
+                reserved subnet ranges listed earlier, you're going through a
+                router rather than connecting directly to the internet.
+
+                IP addresses on a subnet have two parts: network and node. The
+                network part identifies the subnet itself. The node, also called
+                the host, is an individual piece of computer equipment connected
+                to the network and requiring a unique address. Each computer
+                knows how to separate the two parts of the IP address by using
+                a subnet mask. A subnet mask looks somewhat like an IP address,
+                but it's actually just a filter used to determine which part of
+                an IP address designates the network and node
+
+        Reference: https://computer.howstuffworks.com/internet/basics/what-is-an-ip-address.htm
+
+        What is TCP/IP
+            TCP/IP, or the Transmission Control Protocol/Internet Protocol, is a
+            suite of communication protocols used to interconnect network
+            devices on the internet. TCP/IP can also be used as a communications
+            protocol in a private computer network (an intranet or an extranet).
+
+            The entire Internet Protocol suite -- a set of rules and procedures
+            -- is commonly referred to as TCP/IP. TCP and IP are the two main
+            protocols, though others are included in the suite. The TCP/IP
+            protocol suite functions as an abstraction layer between internet
+            applications and the routing/switching fabric.
+
+            TCP/IP specifies how data is exchanged over the internet by
+            providing end-to-end communications that identify how it should be
+            broken into packets, addressed, transmitted, routed and received at
+            the destination. TCP/IP requires little central management, and it
+            is designed to make networks reliable, with the ability to recover
+            automatically from the failure of any device on the network.
+
+            The two main protocols in the Internet Protocol suite serve specific
+            functions. TCP defines how applications can create channels of
+            communication across a network. It also manages how a message is
+            assembled into smaller packets before they are then transmitted over
+            the internet and reassembled in the right order at the destination
+            address.
+
+            IP defines how to address and route each packet to make sure it
+            reaches the right destination. Each gateway computer on the network
+            checks this IP address to determine where to forward the message.
+
+            A subnet mask is what tells a computer, or other network device,
+            what portion of the IP address is used to represent the network and
+            what part is used to represent hosts (other computers) on the
+            network.
+
+            A Network Address Translator (NAT) is the virtualization of Internet
+            Protocol addresses. NAT helps improve security and decrease the
+            number of IP addresses an organization needs.
+
+            Common protocols of TCP/IP include the following:
+
+                - HTTP (Hyper Text Transfer Protocol) handles the communication
+                between a web server and a web browser.
+
+                - HTTPS (Secure HTTP) handles secure communication between a
+                web server and a web browser.
+
+                - FTP (File Transfer Protocol) handles transmission of files
+                between computers.
+
+            How TCP/IP works
+                TCP/IP uses the client-server model of communication in which a
+                user or machine (a client) is provided a service (like sending
+                a webpage) by another computer (a server) in the network.
+
+                Collectively, the TCP/IP suite of protocols is classified as
+                stateless, which means each client request is considered new
+                because it is unrelated to previous requests. Being stateless
+                frees up network paths so they can be used continuously.
+
+                The transport layer itself, however, is stateful. It transmits a
+                single message, and its connection remains in place until all
+                the packets in a message have been received and reassembled at
+                the destination.
+
+                The TCP/IP model differs slightly from the seven-layer Open
+                Systems Interconnection (OSI) networking model designed after
+                it. The OSI reference model defines how applications can
+                communicate over a network.
+
+            TCP/IP model layers
+                TCP/IP functionality is divided into four layers, each of which
+                include specific protocols:
+
+                    - The application layer provides applications with
+                    standardized data exchange. Its protocols include the HTTP,
+                    FTP, Post Office Protocol 3 (POP3), Simple Mail Transfer
+                    Protocol (SMTP) and Simple Network Management Protocol
+                    (SNMP). At the application layer, the payload is the actual
+                    application data.
+
+                    - The transport layer is responsible for maintaining
+                    end-to-end communications across the network. TCP handles
+                    communications between hosts and provides flow control,
+                    multiplexing and reliability. The transport protocols
+                    include TCP and User Datagram Protocol (UDP), which is
+                    sometimes used instead of TCP for special purposes.
+
+                    - The network layer, also called the internet layer, deals
+                    with packets and connects independent networks to transport
+                    the packets across network boundaries. The network layer
+                    protocols are the IP and the Internet Control Message
+                    Protocol (ICMP), which is used for error reporting.
+
+                    - The physical layer, also known as the network interface
+                    layer or data link layer, consists of protocols that operate
+                    only on a link -- the network component that interconnects
+                    nodes or hosts in the network. The protocols in this lowest
+                    layer include Ethernet for local area networks (LANs) and
+                    the Address Resolution Protocol (ARP).
+
+            Importance of TCP/IP
+                TCP/IP is nonproprietary and, as a result, is not controlled by
+                any single company. Therefore, the Internet Protocol suite can
+                be modified easily. It is compatible with all operating systems,
+                so it can communicate with any other system. The Internet
+                Protocol suite is also compatible with all types of computer
+                hardware and networks
+
+                TCP/IP is highly scalable and, as a routable protocol, can
+                determine the most efficient path through the network. It is
+                widely used in current internet architecture
+
+            TCP/IP vs. OSI model
+                TCP/IP and OSI are the most widely used communication
+                networking protocols. The main difference is that OSI is a
+                conceptual model that's not practically used for communication.
+                Rather, it defines how applications can communicate over a
+                network. TCP/IP, on the other hand, is widely used to establish
+                links and network interaction.
+
+                The TCP/IP protocols lay out standards on which the internet was
+                created, while the OSI model provides guidelines on how
+                communication has to be done. Therefore, TCP/IP is a more
+                practical model.
+
+                The TCP/IP and OSI models have similarities and differences. The
+                main similarity is in the way they are constructed as both use
+                layers, although the TCP/IP consists of just four layers, while
+                the OSI model consists of seven layers.
+
+            Pros and cons of TCP/IP
+                The advantages of using the TCP/IP model include the following:
+
+                    - helps establish a connection between different types of
+                    computers;
+                    - works independently of the operating system;
+                    - supports many routing protocols;
+                    - has client-server architecture that is highly scalable;
+                    - can be operated independently;
+                    - supports several routing protocols; and
+                    - is lightweight and doesn't place unnecessary strain on a
+                    network or computer.
+
+                The disadvantages of TCP/IP include the following:
+
+                    - complicated to set up and manage;
+                    - transport layer doesn't guarantee delivery of packets;
+                    - not easy to replace protocols in TCP/IP;
+                    - doesn't clearly separate the concepts of services,
+                    interfaces and protocols, so not good for describing new
+                    technologies in new networks; and
+                    - especially vulnerable to a SYN (synchronization) attack,
+                    which is a type of denial-of-service attack in which a bad
+                    actor uses TCP/IP protocol.
+
+        Reference: https://searchnetworking.techtarget.com/definition/TCP-IP
+
+        What is an Internet Protocol (IP) port?
+            In computer networking, port numbers are part of the addressing
+            information used to identify the senders and receivers of messages.
+            They are associated with TCP/IP network connections and might be
+            described as an add-on to the IP address.
+
+            What Is a Port Number in Networking?
+                Port numbers allow different applications on the same computer
+                to share network resources simultaneously. Home network routers
+                and computer software work with these ports and sometimes
+                support configuring port number settings.
+
+                Networking ports are software-based and unrelated to physical
+                ports that network devices have for plugging in cables.
+
+            How Port Numbers Work
+                Port numbers relate to network addressing. In TCP/IP networking,
+                both TCP and UDP use a set of ports that work together with IP
+                addresses.
+
+                These port numbers work like telephone extensions. Just as a
+                business telephone switchboard can use the main phone number and
+                assign each employee an extension number, a computer can have a
+                main address and a set of port numbers to handle incoming and
+                outgoing connections.
+
+                In the same way that one phone number can be used for all the
+                employees within that building, one IP address can be used to
+                communicate with various applications behind one router. The IP
+                address identifies the destination computer and the port number
+                identifies the specific destination application.
+
+                This is true whether it's a mail application, file transfer
+                program, or web browser. When you request a website from a web
+                browser, the browser communicates over port 80 for HTTP. Then,
+                the data is sent back over the same port and displays in the
+                program that supports that port (the web browser).
+
+                In both TCP and UDP, port numbers start at 0 and go up to 65535.
+                Numbers in the lower ranges are dedicated to common internet
+                protocols such as port 25 for SMTP and port 21 for FTP.
+
+            When You May Need to Take Action With Port Numbers
+                Network administrators may need to set up port forwarding to
+                allow the port numbers of specific applications to pass through
+                a firewall. On home networks, a broadband router supports port
+                forwarding on its configuration screens. The most common
+                application of home port forwarding is for online games that use
+                non-standard ports that the router's built-in firewall blocks.
+
+                Network programmers sometimes need to specify port numbers in
+                their code, such as in socket programming.
+
+                A website URL will sometimes require a specific TCP port number
+                to be included. For example, http://localhost:8080/ uses TCP
+                port 8080 rather than the default port 80. This is usually seen
+                in software development environments more than in mainstream
+                consumer usage
+
+            Open a closed ports
+                Network security enthusiasts also frequently discuss the port
+                number used as a key aspect of attack vulnerabilities and
+                protections. Ports can be classified as either open or closed.
+                Open ports have an associated application that listens for new
+                connection requests and closed ports do not.
+
+                A process called network port scanning detects test messages at
+                each port number to identify which ports are open. Network
+                professionals use port scanning as a tool to measure exposure to
+                attackers and often lock down networks by closing non-essential
+                ports. Hackers, in turn, use port scanners to probe networks for
+                open ports that may be exploitable.
+
+        Reference: https://www.lifewire.com/port-numbers-on-computer-networks-817939
+
+    What is a server?
+        A server is a piece of computer hardware or software that provides
+        functionality for other programs or devices, called 'clients'. This
+        architecture is called client-server model. Servers can provide various
+        functionalities, oftern called 'services', such as sharing data or
+        resources among multiple clients, or performing computation for a
+        client. A client proces may run on the same device or may connect over
+        a network to a server on a different device.
+
+        Typical servers are database servers, file servers, mail servers, print
+        servers, web servers, game servers, and application servers.
+
+        Client-server systems are today most frequently implemented by the
+        request-response model: a client sends a request to the server, which
+        performs some action and sends a response back to the client , typically
+        with a result or acknowledgment.
+
+        Purpose: https://en.wikipedia.org/wiki/Server_(computing)#Purpose
+
+        Also interesting to know:
+            Operating systems: https://en.wikipedia.org/wiki/Server_(computing)#Operating_systems
+
+    Web server
+        What is a Web server?
+            A web server is server software, or hardware dedicated to running
+            this software, that can satisfy client requests on the World Wide
+            Web. A web server can, in general, contain one or more websites. A
+            web server processes incoming network requests over HTTP and several
+            other related protocols.
+
+            The primary function of a web server is to store, process and
+            deliver web pages to clients.
+
+            How do web servers work?
+                Web server software is accessed through the domain names of
+                websites and ensures the delivery of the site's content to
+                the requesting user. The software side is also comprised of
+                several components, with at least an HTTP server. The HTTP
+                server is able to understand HTTP and URLs. As hardware, a web
+                server is a computer that stores web server software and other
+                files related to a website, such as HTML documents, images and
+                JavaScript files.
+
+                When a web browser, like Google Chrome or Firefox, needs a file
+                that's hosted on a web server, the browser will request the file
+                by HTTP. When the request is received by the web server, the
+                HTTP server will accept the request, find the content and send
+                it back to the browser through HTTP.
+
+                More specifically, when a browser requests a page from a web
+                server, the process will follow a series of steps. First, a
+                person will specify a URL in a web browser's address bar. The
+                web browser will then obtain the IP address of the domain name
+                -- either translating the URL through DNS (Domain Name System)
+                or by searching in its cache. This will bring the browser to a
+                web server. The browser will then request the specific file from
+                the web server by an HTTP request. The web server will respond,
+                sending the browser the requested page, again, through HTTP. If
+                the requested page does not exist or if something goes wrong,
+                the web server will respond with an error message. The browser
+                will then be able to display the webpage.
+
+                Multiple domains also can be hosted on one web server.
+
+            Dynamic vs static web servers
+                A web server can be used to serve either static or dynamic
+                content. Static refers to the content being shown as is, while
+                dynamic content can be updated and changed. A static web server
+                will consist of a computer and HTTP software. It is considered
+                static because the sever will send hosted files as is to a
+                browser.
+
+                Dynamic web browsers will consist of a web server and other
+                software such as an application server and database. It is
+                considered dynamic because the application server can be used
+                to update any hosted files before they are sent to a browser.
+                The web server can generate content when it is requested from
+                the database. Though this process is more flexible, it is also
+                more complicated.
+
+    DNS
+        
