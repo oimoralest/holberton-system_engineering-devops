@@ -1,0 +1,182 @@
+0x0B. SSH
+    SSH Essentials: Working with SSH Servers, Clients, and Keys
+        Important guide:
+            link: https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys
+
+    SSH Config File
+        The ssh program on a host receives its configuration from either the
+        command line or from configuration files ~/.ssh/config and
+        /etc/ssh/ssh_config.
+
+        Command-line options take precedence over configuration files. The
+        user-specific configuration file ~/.ssh/config is used next. Finally,
+        the global /etc/ssh/ssh_config file is used. The first obtained value
+        for each configuration parameter will be used.
+
+        Commonly used configuration options
+            There are many configuration options available. In practice, only a
+            few of them are ever changed, and user-specific configuration files
+            are rarely used. In most cases, just /etc/ssh/ssh_config is edited.
+
+            Enabling X11 forwarding and agent forwarding
+                Developers, students, and researchers often want to enable X11
+                forwarding and SSH agent forwarding. These allow running
+                graphical applications remotely and eliminate the need for
+                typing a password whenever moving from one server to another,
+                respectively. Setting these options in /etc/ssh/ssh_config makes
+                life easier for end users, saves overhead, and reduces support
+                load. However, they increase the risk of an attack spreading
+                from a compromised server to a user's desktop, so the most
+                security-critical environments may want to leave them disabled.
+                There is generally no reason to enable them on production
+                servers in enterprises.
+
+                ForwardAgent yes
+                ForwardX11 yes
+
+            Port forwarding
+                Local and remote port forwarding can be used for tunneling
+                applications, accessing intranet web services from home,
+                tunneling database access, and many other purposes. Note,
+                however, that port forwarding can also be used to tunnel traffic
+                from the external Internet into a corporate intranet. Employees
+                sometimes do this to be able to work from home even when company
+                policy does not permit it. Hackers use it to leave permanent
+                backdoor.
+
+            Configuring public key authentication
+                Public authentication is used for passwordless logins between
+                systems. It is often used for automated processes, such as
+                backups, configuration management, and file transfers.
+
+                When a user has created more than one SSH key for authentication,
+                the -i command line option may be helpful for specifying which
+                key to use. In the client configuration file, this can be
+                specified using the IdentityFile options.
+
+            Certificate-based authentication
+                OpenSSH certificates can be used for authentication either using
+                ssh-agent or by specifying the CertificateFile option in the
+                client configuration file.
+
+        Format of SSH client config file ssh_config
+            The ssh_config client configuration file has the following format.
+            Both the global /etc/ssh/ssh_config and per-user ~/ssh/config have
+            the same format.
+
+                - Empty lines and lines starting with '#' are comments.
+
+                - Each line begins with a keyword, followed by argument(s).
+
+                - Configuration options may be separated by whitespace or
+                optional whitespace and exactly one =.
+
+                - Arguments may be enclosed in double quotes (") in order to
+                specify arguments that contain spaces.")
+
+        link: https://www.ssh.com/ssh/config/
+
+
+    Public Key authentication for SSH
+        The SSH protocol supports many authentication methods. Arguably one the
+        most important of these is Public Key authentication for interactive and
+        automated connections.
+
+        Public Key authentication - what and why?
+            The motivation for using public key authentication over simple
+            passwords is security. Public key authentication provides
+            cryptographic strength that even extremely long passwords can not
+            offer.
+
+            In addition to security public key authentication also offers
+            usability benefits - it allows users to implement single sign-on
+            across the SSH servers they connect to. Public key authentication
+            also allows automated, passwordless login that is a key enabler for
+            the countless secure automation processes that execute within
+            enterprise networks globally.
+
+            Asymmetric Cryptography - Algorithms
+                As with any encryption scheme, public key authentication is
+                based on an algorithm. There are several well-researched, secure,
+                and trustworthy algorithms out there - the most common being the
+                likes of RSA and DSA. Unlike the commonly known (symmetric or
+                secret-key) encryption algorithms the public key encryption
+                algorithms work with two separate keys. These two keys form a
+                pair that is specific to each user.As with any encryption scheme,
+                public key authentication is based on an algorithm. There are
+                several well-researched, secure, and trustworthy algorithms out
+                there - the most common being the likes of RSA and DSA. Unlike
+                the commonly known (symmetric or secret-key) encryption
+                algorithms the public key encryption algorithms work with two
+                separate keys. These two keys form a pair that is specific to
+                each user.
+
+            Key Pair - Public and Private
+                In the SSH public key authentication use case, it is rather
+                typical that the users create (i.e. provision) the key pair for
+                themselves. SSH implementations include easily usable utilities
+                for this.
+
+                Each SSH key pair includes two keys:
+                     - A public key that is copied to the SSH server(s). Anyone
+                     with a copy of the public key can encrypt data which can
+                     then only be read by the person who holds the corresponding
+                     private key. Once an SSH server receives a public key from
+                     a user and considers the key trustworthy, the server marks
+                     the key as authorized in its authorized_keys file. Such
+                     keys are called authorized keys.
+
+                     - A private key that remains (only) with the user. The
+                     possession of this key is proof of the user's identity.
+                     Only a user in possession of a private key that corresponds
+                     to the public key at the server will be able to
+                     authenticate successfully. The private keys need to be
+                     stored and handled carefully, and no copies of the private
+                     key should be distributed. The private keys used for user
+                     authentication are called identity keys.
+
+        Setting Up Public Key Authentication for SSH
+            The following simple steps are required to set up public key
+            authentication (for SSH):
+
+                    - Key pair is created (typically by the user). This is
+                    typically done with ssh-keygen.
+
+                    - Private key stays with the user (and only there), while
+                    the public key is sent to the server. Typically with the
+                    ssh-copy-id utility.
+
+                    - Server stores the public key (and "marks" it as
+                    authorized).
+
+                    - Server will now allow access to anyone who can prove they
+                    have the corresponding private key.
+
+        Handling of the Private Key
+            It is extremely important that the privacy of the private key is
+            guarded carefully. For most user-driven use cases this is
+            accomplished by encrypting the private key with a passphrase.
+
+            When a private key is needed the user is asked to supply the
+            passphrase so that the private key can be decrypted. The handling of
+            passphrases can be automated with an SSH agent.
+
+            In most automated use cases (scripts, applications, etc) the private
+            keys are not protected and careful planning and key management
+            practises need to be excercised to remain secure and compliant with
+            regulatory mandates.
+
+        From Chaos to Order - SSH Key Management
+            Managing and controlling access to servers and other IT
+            infrastructure is a legal requirement for any enterprise that
+            operates on regulated markets such as finance, energy, healthcare,
+            or commerce. These enterprises need to employ solutions for SSH key
+            management to control the access granted by SSH keys.
+
+    link: https://www.ssh.com/ssh/public-key-authentication
+
+    How Secure Shell Works (SSH) - Computerphile
+        Youtube: https://www.youtube.com/watch?v=ORcvSkgdA58
+
+    SSH Crash Course | With Some DevOps
+        Youtube: https://www.youtube.com/watch?v=hQWRp-FdTpc
