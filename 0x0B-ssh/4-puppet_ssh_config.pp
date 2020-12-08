@@ -1,7 +1,13 @@
 # Change the /etc/ssh/ssh_config to connect to a server without typing a
 # password
-
-exec {'ssh_config':
-  command => 'echo "PasswordAuthentication no\nIdentityFile ~/.ssh/holberton\n" >> /etc/ssh/ssh_config',
-  path    => '/usr/bin:/usr/sbin:/bin',
+include stdlib
+file_line {'Disable password authentication':
+  path  => '/etc/ssh/ssh_config',
+  line  => '    PasswordAuthentication no',
+  match => '^*PasswordAuthentication*',
+}
+file_line {'add identity file':
+  path  => '/etc/ssh/ssh_config',
+  line  => '    IdentityFile ~/.ssh/holberton',
+  match => '^*IdentityFile ~/.ssh/holberton*',
 }
