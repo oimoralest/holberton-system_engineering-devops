@@ -1,0 +1,272 @@
+0x0C. Web server
+    CI/CD
+        Twelve Principles of Agile Software: http://agilemanifesto.org/principles.html
+
+        The lean/agile methodology is now widely used by the industry and one of
+        its key principles is to iterate as fast as possible. If you apply this
+        to software engineering, it means that you should:
+
+            - code
+            - ship your code
+            - measure the impact
+            - learn from it
+            - fix or improve it
+            - start over
+
+        As fast as possible and with small iterations in days or even hours
+        (whereas it used to be weeks or even months). One big advantage is that
+        if product development is going the wrong direction, fast iteration will
+        allow to quickly detect this, and avoid wasting time.
+
+        From a technical point of view, quicker iterations mean fewer lines of
+        code being pushed at every deploy, which allows easy performance impact
+        measurement and easy troubleshooting if something goes wrong.
+
+        Applied to software engineering, CI/CD (Continuous
+        Integration/Continuous Deployment) is a principle that allows
+        individuals or teams to have a lean/agile way of working.
+
+        This translates to a “shipping pipeline” which is often built with
+        multiple tools such as:
+
+                Shipping the code:
+                    Capistrano, Fabric
+                Encapsulating the code
+                    Docker, Packer
+                Testing the code
+                    Jenkins, CircleCi, Travis
+                Measuring the code
+                    Datadog, Newrelic, Wavefront
+
+    Docker
+        What is Docker and why is it so darn popular?
+            Today, Docker, and its open-source father now named Moby, is bigger
+            than ever. According to Docker, over 3.5 million applications have
+            been placed in containers using Docker technology and over 37
+            billion containerized applications have been downloaded.
+
+            It's not just Docker who thinks they're on to something big. 451
+            Research also sees Docker technology being wildly successful. It
+            predicts "the application container market will explode over the
+            next five years. Annual revenue is expected to increase by 4x,
+            growing from $749 million in 2016 to more than $3.4 billion by 2021,
+            representing a compound annual growth rate (CAGR) of 35 percent."
+
+            Real-world data backs up the conclusion that Docker is being widely
+            adopted. DataDog, a cloud-monitoring system, found that by March
+            2016, "13.6 percent of Datadog's customers had adopted Docker. One
+            year later that number has grown to 18.8 percent. That's almost 40
+            percent market-share growth in 12 months." RightScale observed in
+            its RightScale 2018 State of the Cloud report that Docker's adoption
+            by the industry has increased to 49 percent from 35 percent in 2017.
+
+            Docker, an open-source technology, isn't just the darling of Linux
+            powers such as Red Hat and Canonical. Proprietary software companies
+            such as Oracle and Microsoft have also embraced Docker. Today,
+            almost all IT and cloud companies have adopted Docker.
+
+            Why companies embrace Docker containers
+                VM hypervisors, such as Hyper-V, KVM, and Xen, all are "based on
+                emulating virtual hardware. That means they're fat in terms of
+                system requirements."
+
+                Containers, however, use shared operating systems. This means
+                they are much more efficient than hypervisors in system resource
+                terms. Instead of virtualizing hardware, containers rest on top
+                of a single Linux instance. This means you can "leave behind the
+                useless 99.9 percent VM junk, leaving you with a small, neat
+                capsule containing your application," said Bottomley.
+
+                With a perfectly tuned container system, you can have as many as
+                four-to-six times the number of server application instances as
+                you can using Xen or KVM VMs on the same hardware.
+
+                Another reason why containers are popular is they lend
+                themselves to Continuous Integration/Continuous Deployment
+                (CI/CD). This a DevOps methodology designed to encourage
+                developers to integrate their code into a shared repository
+                early and often, and then to deploy the code quickly and
+                efficiently.
+
+                Docker enables developers to easily pack, ship, and run any
+                application as a lightweight, portable, self-sufficient
+                container, which can run virtually anywhere. "Containers gives
+                you instant application portability."
+
+                Containers do this by enabling developers to isolate code into a
+                single container. This makes it easier to modify and update the
+                program. It also lends itself, as Docker points out, for
+                enterprises to break up big development projects among multiple
+                smaller, Agile teams using Jenkins, an open-source CI/CD program,
+                to automate the delivery of new software in containers.
+
+                Docker containers are easy to deploy in a cloud. "Docker has
+                been designed in a way that it can be incorporated into most
+                DevOps applications, including Puppet, Chef, Vagrant, and
+                Ansible, or it can be used on its own to manage development
+                environments."
+
+                Specifically, for CI/CD Docker makes it possible to set up local
+                development environments that are exactly like a live server;
+                run multiple development environments from the same host with
+                unique software, operating systems, and configurations; test
+                projects on new or different servers; and allow anyone to work
+                on the same project with the exact same settings, regardless of
+                the local host environment. This enables developers to run the
+                test suites, which are vital to CI/CD, to quickly see if a newly
+                made change works properly.
+
+                By using CI/CD,  IT departments with a strong DevOps workflow
+                deployed software 200 times more frequently than low-performing
+                IT departments. Moreover, they recovered 24 times faster, and
+                had three times lower rates of change failure. Simultaneously,
+                these businesses are spending 50 percent less time overall
+                addressing security issues, and 22 percent less time on
+                unplanned work.
+
+        Start Docker container
+            $ sudo dockerd -> initializes daemon
+            $ docker run [image](i.e -d -ti ubuntu:18.04) -> run a image
+            $ docker exec -ti CONTAINER_ID (see: docker ps) /bin/bash -> login
+
+    Web stack debugging
+        Debugging usually takes a big chunk of a software engineer’s time. The
+        art of debugging is tough and it takes years, even decades to master,
+        and that is why seasoned software engineers are the best at it…
+        experience. They have seen lots of broken code, buggy systems, weird
+        edge cases and race conditions.
+
+        Test and verify your assumptions
+            The idea is to ask a set of questions until you find the issue. For
+            example, if you installed a web server and it isn’t serving a page
+            when browsing the IP, here are some questions you can ask yourself
+            to start debugging:
+
+                - Is the web server started? - You can check using the service
+                manager, also double check by checking process list.
+                - On what port should it listen? - Check your web server
+                configuration
+                - Is it actually listening on this port? - netstat -lpdn - run
+                as root or sudo so that you can see the process for each
+                listening port
+                - It is listening on the correct server IP? - netstat is also
+                your friend here
+                - Is there a firewall enabled?
+                - Have you looked at logs? - usually in /var/log and tail -f is
+                your friend
+                - Can I connect to the HTTP port from the location I am browsing
+                from? - curl is your friend
+
+        Get a quick overview of the machine state
+            When you connect to a server/machine/computer/container you want to
+            understand what’s happened recently and what’s happening now, and
+            you can do this with 5 commands in a minute or less:
+
+            w
+
+                - shows server uptime which is the time during which the server
+                has been continuously running
+                - shows which users are connected to the server
+                - load average will give you a good sense of the server health -
+                (read more about load here and here)
+
+            history
+
+                - shows which commands were previously run by the user you are
+                currently connected to
+                - you can learn a lot about what type of work was previously
+                performed on the machine, and what could have gone wrong with it
+                - where you might want to start your debugging work
+
+            top
+
+                - shows what is currently running on this server
+                - order results by CPU, memory utilization and catch the ones
+                that are resource intensive
+
+            df
+
+                - shows disk utilization
+
+            netstat
+
+                - what port and IP your server is listening on
+                - what processes are using sockets
+                - try netstat -lpn on a Ubuntu machine
+
+        Machine
+            Debugging is pretty much about verifying assumptions, in a perfect
+            world the software or system we are working on would be working
+            perfectly, the server is in perfect shape and everybody is happy.
+            But actually, it NEVER goes this way, things ALWAYS fail (it’s
+            tremendous!).
+
+            For the machine level, you want to ask yourself these questions:
+
+                - Does the server have free disk space? - df
+                - Is the server able to keep up with CPU load? - w, top, ps
+                - Does the server have available memory? free
+                - Are the server disk(s) able to keep up with read/write IO? -
+                htop
+
+            If the answer is no for any of these questions, then that might be
+            the reason why things are not going as expected. There are often 3
+            ways of solving the issue:
+
+                - free up resources (stop process(es) or reduce their resource
+                consumption)
+                - increase the machine resources (adding memory, CPU, disk
+                space…)
+                - distributing the resource usage to other machines
+
+        Network issue
+            For the machine level, you want to ask yourself these questions:
+
+                - Does the server have the expected network interfaces and IPs
+                up and running? ifconfig
+                - Does the server listen on the sockets that it is supposed to?
+                netstat (netstat -lpd or netstat -lpn)
+                - Can you connect from the location you want to connect from, to
+                the socket you want to connect to? telnet to the IP + PORT
+                (telnet 8.8.8.8 80)
+                - Does the server have the correct firewall rules? iptables, ufw:
+                    - iptables -L
+                    - sudo ufw status
+
+        Process issue
+            If a piece of Software isn’t behaving as expected, it can obviously
+            be because of above reasons… but the good news is that there is more
+            to look into (there is ALWAYS more to look into actually).
+
+                - Is the software started? init, init.d:
+                    - service NAME_OF_THE_SERVICE status
+                    - /etc/init.d/NAME_OF_THE_SERVICE status
+                - Is the software process running? pgrep, ps:
+                    - pgrep -lf NAME_OF_THE_PROCESS
+                    - ps auxf
+                - Is there anything interesting in the logs? look for log files
+                in /var/log/ and tail -f is your friend
+
+    What is a Child Process?
+        If you run a Unix or Linux dedicated server, you have likely encountered
+        child processes without even knowing it. Therefore, it is good to know
+        what child processes are and how they work.
+
+        A child process is a process created by another process. The creator
+        process is properly called the “parent process”. The benefit of a child
+        process is that it can start or stop at will without affecting the
+        parent process.
+
+        In normal server operations, the kernel may initiate child processes,
+        and other programs, such as Apache, may have them as well. Apache
+        creates child processes (or children, if you prefer) whenever the number
+        of requests (web page accesses from users) exceeds the maximum allowed
+        number of requests. When the maximum number of child process requests is
+        exceeded, another child process spawns.
+
+        To view all running processes along with their child processes in a
+        “tree” format, use the following command:
+
+            $ ps axf
+
+        see more: https://www.gnu.org/software/libc/manual/html_node/Processes.html#Processes
