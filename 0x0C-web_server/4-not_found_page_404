@@ -9,5 +9,5 @@ STRING="rewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 perm
 sudo sed -i "/server_name _;/ a\ \ \ \ \ \ \ \ $STRING" /etc/nginx/sites-available/default
 sudo touch /var/www/html/custom_404.html
 sudo echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
-sudo sed -i "/$STRING/ a\ \ \ \ \ \ \ \ error_page 404  /custom_404.html;" /etc/nginx/sites-available/default
+sudo sed -i "/server_name _;/ a\ \ \ \ \ \ \ \ error_page 404  /custom_404.html;" /etc/nginx/sites-available/default
 sudo service nginx start
