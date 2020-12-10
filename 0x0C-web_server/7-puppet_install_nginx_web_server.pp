@@ -1,8 +1,8 @@
 # This manifest configures a web server with nginx
-include stdlib
+
 
 package {'nginx':
-  ensure => 'installed',
+  ensure => installed,
 }
 file {'/var/www/html/index.html':
   content => 'Holberton School',
