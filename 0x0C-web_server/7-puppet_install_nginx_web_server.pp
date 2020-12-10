@@ -1,11 +1,8 @@
 # This manifest configures a web server with nginx
 include stdlib
-package { 'apache2.2-common':
-  ensure => absent,
-}
+
 package {'nginx':
   ensure   => 'installed',
-  provider => 'apt',
 }
 exec {'enable firewall for nginx':
   command => "ufw allow 'Nginx HTTP'",
@@ -17,10 +14,9 @@ file {'create index.html':
 }
 file_line {'append permanent redirection':
   path  => '/etc/nginx/sites-available/default',
-  after => 'server_name -;',
-  line  => '        rewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+  after => 'server_name _;',
+  line  => '       rewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
-service {'start nginx':
+service {'nginx':
   ensure  => running,
-  require => Package['nginx'],
 }
