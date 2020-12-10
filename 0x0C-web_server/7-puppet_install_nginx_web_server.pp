@@ -16,4 +16,5 @@ file_line {'append permanent redirection':
 }
 service {'nginx':
   ensure  => running,
+  require => Package['nginx'],
 }
