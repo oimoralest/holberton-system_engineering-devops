@@ -1,17 +1,18 @@
 # This manifest configures a web server with nginx
 
-
 package {'nginx':
   ensure => installed,
 }
-file {'/var/www/html/index.html':
+
+file {'index.html':
   content => 'Holberton School',
+  path    => '/var/www/html/index.html'
 }
-file_line {'append permanent redirection':
+file_line { 'append instruction':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
   after  => 'server_name _;',
-  line   => 'rewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
 service {'nginx':
   ensure  => running,
