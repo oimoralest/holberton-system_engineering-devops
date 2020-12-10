@@ -2,11 +2,7 @@
 include stdlib
 
 package {'nginx':
-  ensure   => 'installed',
-}
-exec {'enable firewall for nginx':
-  command => "ufw allow 'Nginx HTTP'",
-  path    => '/usr/bin:/bin:/usr/sbin:/etc',
+  ensure => 'installed',
 }
 file {'create index.html':
   path    => '/var/www/html/index.html',
