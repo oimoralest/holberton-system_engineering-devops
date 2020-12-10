@@ -20,7 +20,7 @@ file_line {'append permanent redirection':
   after => 'server_name -;',
   line  => '        rewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
-exec {'start nginx':
-  command => 'service nginx restart',
-  path    => '/usr/bin:/bin:/usr/sbin:/etc',
+service {'start nginx':
+  ensure  => running,
+  require => Package['nginx'],
 }
