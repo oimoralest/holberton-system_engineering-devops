@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Install and setup HAproxy on ubuntu 16.04
+apt-get -y install --no-install-recommends software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-2.0
+apt-get update
+apt-get -y upgrade
+apt-get -y install haproxy=2.0.\*
+echo "# Set ENABLED to 1 if you want the init script to start haproxy." >> /etc/default/haproxy
+echo "ENABLED=1" >> /etc/default/haproxy
+cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+echo "
+frontend oimoralest.tech
+        bind *:80
+	default_backend oimoralest.tech_backend
+
+backend oimoralest.tech_backend
+	balance roundrobin
+	server 1796-web-01 34.75.154.27:80 check
+	server 1796-web-02 34.75.211.153:80 check
+" >> /etc/haproxy/haproxy.cfg
+service haproxy restart
+
