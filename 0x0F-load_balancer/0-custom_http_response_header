@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script configures a new Ubuntu machine to install nginx
+
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+sudo echo "Holberton School" | sudo tee /var/www/html/index.html
+STRING="rewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
+sudo sed -i "/server_name _;/ a\ \ \ \ \ \ \ \ $STRING" /etc/nginx/sites-available/default
+sudo touch /var/www/html/custom_404.html
+sudo echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
+sudo sed -i "/server_name _;/ a\ \ \ \ \ \ \ \ error_page 404  /custom_404.html;" /etc/nginx/sites-available/default
+sudo sed -i "/server_name _;/ a\ \ \ \ \ \ \ \ add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+sudo service nginx restart
+
