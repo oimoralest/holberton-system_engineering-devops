@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# This script prints the records for a subdomain and their ip's
+consult=""
+ip=""
+record=""
+digConsult () {
+    consult=$(dig "$1")
+}
+split () {
+    consult=$1
+    criteria=$2
+    ip=$(echo "$consult" | awk "/^$criteria./ {print \$5}")
+    record=$(echo "$consult" | awk "/^$criteria./ {print \$4}")
+}
+printOne () {
+    domain=$1
+    subdomain=$2
+    digConsult "$subdomain.$domain"
+    split "$consult" "$subdomain.$domain"
+    echo "The subdomain $subdomain is a $record record and points to $ip"
+}
+domain=$1
+subdomain=$2
+if [ $# -lt 2 ]
+    then
+        for subdomain in www lb-01 web-01 web-02
+            do
+                printOne "$domain" "$subdomain"
+        done
+else
+    printOne "$domain" "$subdomain"
+fi 
