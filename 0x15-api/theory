@@ -1,0 +1,134 @@
+API
+    What is an API?
+        An application programming interface (API) is a set of routines, protocols, and tools for
+        building software applications. An API also specifies how two or more programs interact
+        with one another.
+
+        Types of APIs:
+            - System APIs access and maintain data. This types of APIs are responsible for managing
+            all of the configurations within a system.
+            - Process APIs take the data accessed with a system APIs and synthesize it to create a
+            new way to view or act on data across systems.
+            - Experience APIs add context to system and process APIs. The types of APIs make the
+            information collected by system and process APIs understandable to a specified audience.
+
+        It’s not uncommon for development teams to break up their application into multiple servers
+        that talk to each other via APIs. The servers that perform helper functions for the main
+        application server are commonly referred to as microservices.
+
+    Related content: https://www.freecodecamp.org/news/what-is-an-api-in-english-please-b880a3214a82/
+
+    What is a REST API?
+        REST is an acronym for Representational State Transfer — an almost meaningless description
+        of the most-used web service technology! A REST API is a way for two computer systems to
+        communicate over HTTP in a similar way to web browsers and servers.
+
+        REST APIs and the Rest
+            Various data communication standards have evolved over the years. You may have
+            encountered standards including CORBA, SOAP, or XML-RPC, which usually established
+            strict messaging rules.
+
+            REST was defined in 2000 by Roy Fielding and is considerably simpler. It’s not a
+            standard but a set of recommendations and constraints for RESTful web services. These
+            include:
+                - Client-Server. SystemA makes an HTTP request to a URL hosted by SystemB, which
+                returns a response.
+                - Stateless. REST is stateless: the client request should contain all the
+                information necessary to respond to a request. In other words, it should be
+                possible to make two or more HTTP requests in any order and the same responses
+                will be received.
+                - Cacheable. A response should be defined as cacheable or not.
+                - Layered. The requesting client need not know whether it’s communicating with the
+                actual server, a proxy, or any other intermediary.
+
+            Creating a RESTful Web Service
+                A RESTful web service request contains:
+                    - An Endpoint URL. An application implementing a RESTful API will define one or
+                    more URL endpoints with a domain, port, path, and/or querystring — for example,
+                    https://mydomain/user/123?format=json.
+                    - The HTTP method. Differing HTTP methods can be used on any endpoint which map
+                    to application create, read, update, and delete (CRUD) operations
+                    - HTTP headers. Information such as authentication tokens or cookies can be
+                    contained in the HTTP request header
+                    - Body Data. Data is normally transmitted in the HTTP body in an identical way
+                    to HTML <form> submissions or by sending a single JSON-encoded data string
+
+                REST API Response
+                    The response payload can be whatever is practical: data, HTML, an image, an
+                    audio file, and so on. Data responses are typically JSON-encoded, but XML, CSV,
+                    simple strings, or any other format can be used.
+
+                    An appropriate HTTP status code should also be set in the response header.
+
+                    Other HTTP headers can be set including the Cache-Control or Expires directives
+                    to specify how long a response can be cached before it’s considered stale.
+
+                CORS
+                    Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that
+                    allows a server to indicate any other origins (domain, scheme, or port) than
+                    its own from which a browser should permit loading of resources
+
+                REST API Challenges
+                    REST Endpoint Consensus
+                        Consider the following endpoints:
+                            - /user/123
+                            - /user/id/123
+                            - /user/?id=123
+
+                        All are valid options to fetch data for user 123. The number of combinations
+                        increase further when you have more complex operations
+
+                    REST API Versioning
+                        API changes are inevitable, but endpoint URLs should never be invalidated
+                        when they’re being used internally and/or by third-party applications
+
+                        APIs are often versioned to avoid compatibility issues — such as
+                        /2.0/user/123 supersedes /user/123 — but the old endpoint remains active.
+                        However, this increases the workload, as multiple APIs are maintained. Older
+                        APIs can eventually be scrapped, but the process requires careful planning
+
+                    REST API Authentication
+                        Client-side applications on the same domain as the RESTful API will send and
+                        receive cookies just like any other HTTP request. (Note that Fetch() in
+                        older browsers requires the credentials init option to be set.) An API
+                        request can therefore be validated to ensure a user is logged in and has
+                        appropriate rights.
+
+                        Third-party applications must use alternative methods of authorization.
+                        Common authentication options include:
+                            - HTTP basic authentication. An HTTP Authorization header containing a
+                            base64-encoded username:password string is passed in the request header
+                            - API keys. A third-party application is granted permission to use an
+                            API by issuing a key which may have specific rights or be restricted to
+                            a particular domain. The key is passed in every request in the HTTP
+                            header or on the querystring
+                            - OAuth. A token is obtained before any request can be made by sending a
+                            client ID and possibly a client secret to an OAuth server. The OAuth
+                            token is then sent with each API request until it expires
+                            - JSON Web Tokens (JWT). Digitally-signed authentication tokens are
+                            securely transmitted in both the request and response header
+
+                        API authentication will vary depending on the use context. In some cases,
+                        the third-party application is considered to be another logged-in user with
+                        specific rights and permissions
+
+                    Multiple Requests and Unnecessary Data
+                        RESTful APIs are limited by their implementation. A response may contain
+                        more data than you need, or require further requests to access all data.
+                        This is known as the N+1 problem; N API requests must be made for each
+                        result in the parent request
+
+                        To avoid massive responses, the API could be adjusted to control the details
+
+                Does GraphQL Fix REST APIs?
+                    These REST conundrums led Facebook to create GraphQL — a web service query
+                    language. Think of it as SQL for web services; a single request defines what
+                    data you need and how you want it returned.
+
+                    GraphQL addresses many of the challenges posed by RESTful APIs. That said, few
+                    companies have problems comparable to Facebook. It’s worth considering GraphQL
+                    once your RESTful API evolves beyond its simple starting point.
+
+    Resource: https://www.sitepoint.com/developers-rest-api/
+
+    
