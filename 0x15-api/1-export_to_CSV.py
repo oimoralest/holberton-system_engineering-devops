@@ -14,9 +14,8 @@ if __name__ == '__main__':
         'https://jsonplaceholder.typicode.com/todos?userId=' + argv[1]).json()
     with open('{}.csv'.format(argv[1]), mode='w') as employeeFile:
         writer = csv.writer(
-            employeeFile, delimiter=',', quotechar='"',
-            quoting=csv.QUOTE_ALL)
+            employeeFile, quoting=csv.QUOTE_ALL)
         for task in tasks:
             writer.writerow(
-                [userInfo.get('id'), userInfo.get('name'),
+                [userInfo.get('id'), userInfo.get('username'),
                  task.get('completed'), task.get('title')])
