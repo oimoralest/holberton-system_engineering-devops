@@ -13,7 +13,7 @@ if __name__ == '__main__':
             'https://jsonplaceholder.typicode.com/todos?userId=' +
             str(user.get('id'))).json()
         tasks = [
-            {'username': user.get('name'), 'task': task.get('title'),
+            {'username': user.get('username'), 'task': task.get('title'),
              'completed': task.get('completed')} for task in tasks]
         todoDictionary.update({user.get('id'): tasks})
     with open('todo_all_employees.json', mode='w') as employeeFile:
