@@ -14,7 +14,7 @@ if __name__ == '__main__':
         'https://jsonplaceholder.typicode.com/todos?userId=' + argv[1]).json()
     tasksDictList = [
         {'task': task.get('title'), 'completed': task.get('completed'),
-         'username': userInfo.get('name')} for task in tasks]
+         'username': userInfo.get('username')} for task in tasks]
     with open('{}.json'.format(argv[1]), mode='w') as employeeFile:
         json.dump(
             {tasks[0].get('userId'): tasksDictList}, employeeFile, indent=4)
