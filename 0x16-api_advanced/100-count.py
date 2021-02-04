@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This script defines the function count_words
 """
+import operator
 import re
 import requests
 headers = {'User-Agent': 'Godfather'}
@@ -22,7 +23,10 @@ def count_words(subreddit, word_list, after='null'):
         word_list.sort()
         word_list = {key: 0 for key in word_list}
     if after is None:
-        for key, value in word_list.items():
+        word_list = sorted(
+            word_list.items(), key=operator.itemgetter(1), reverse=True)
+        for i in range(len(word_list)):
+            key, value = word_list[i]
             if value:
                 print('{}: {}'.format(key, value))
     else:
@@ -36,7 +40,7 @@ def count_words(subreddit, word_list, after='null'):
                 title = topic.get('data').get('title')
                 for word in word_list:
                     find = re.findall(r'\b{}\b'.format(word), title, re.I)
-                    if re.findall(r'\b{}\b'.format(word), title, re.I):
+                    if find:
                         word_list[word] += len(find)
             count_words(subreddit, word_list, after)
         except:
