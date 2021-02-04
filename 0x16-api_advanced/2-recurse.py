@@ -33,8 +33,8 @@ def recurse(subreddit, hot_list=[], after='null'):
     else:
         try:
             data = requests.get(
-                'https://www.reddit.com/r/{}/hot.json?limit=100&after={}'.format(
-                    subreddit, after), headers=headers).json().get('data')
+                'https://www.reddit.com/r/{}/hot.json?limit=100&after={}'
+                .format(subreddit, after), headers=headers).json().get('data')
             after = data.get('after')
             append_to_list(hot_list, data.get('children'))
             recurse(subreddit, hot_list, after)
